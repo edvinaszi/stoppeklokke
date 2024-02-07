@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stopwatch</title>
+    <style>
+        #counter {
+            font-size: 300%;
+            background-color: rgb(245, 245, 245);
+            width: 120px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            border: 1px solid;
+            margin-left: 60px;
+            margin-top: 15px;
+            padding: 5px;
+            padding-left: 10px;
+        }
+
+        .stopwatch {
+            width: 250px;
+            height: 300px;
+            background-color: rgb(149, 152, 147);
+            border: solid 2px;
+            border-radius: 20%;
+        }
+
+        .buttonLine {
+            display: flex;
+            justify-content: center;
+            margin: 15px;
+            gap: 2px;
+        }
+
+        .button {
+            background-color: rgb(156, 205, 172);
+        }
+
+        #lapRecord {
+            margin-left: 80px;
+            color: white;
+
+        }
+
+        .rule {
+            font-size: 70%;
+            padding-left: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stopwatch">
+        <div id="counter">0</div>
+        <div class="buttonLine">
+            <button class="button" id="startButton" onclick="starter()">Start</button>
+            <button class="button" id="stopButton" disabled onclick="stop()">Pause</button>
+            <button class="button" id="resetButton" disabled onclick="reset()">Reset</button>
+            <button class="button" id="lapButton" onclick="lap()" disabled>Lap</button>
+        </div>
+        <div id="lapRecord"></div>
+    </div>
+    <div class="rule">maximum number of laps: 10</div>
+
+    <script>
+        var seconds = 0;
+        var intervalId
+        var startButton = document.getElementById('startButton')
+        var stopButton = document.getElementById('stopButton')
+        var resetButton = document.getElementById('resetButton')
+        var lapButton = document.getElementById('lapButton')
+        var lapCount = 1;
+        var lapRecordDiv = document.getElementById('lapRecord')
+
+
+
+
+
+        function starter() {
+            startButton.disabled = true;
+            stopButton.disabled = false;
+            resetButton.disabled = false;
+            lapButton.disabled = false;
+            lap
+            intervalId = setInterval(count, 10)
+
+        }
+        function count() {
+            seconds += 1;
+            document.getElementById("counter").innerHTML = (seconds * 100) * 0.01 / 100;
+        }
+
+        function stop() {
+            clearInterval(intervalId)
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            lapButton.disabled = true;
+        }
+
+        function reset() {
+            startButton.disabled = false;
+            stopButton.disabled = true;
+            resetButton.disabled = true;
+            lapButton.disabled = true;
+            clearTimeout(intervalId)
+            seconds = 0
+            document.getElementById("counter").innerHTML = "0"
+            document.getElementById("lapRecord").innerHTML = ""
+            lapCount = 1
+
+
+        }
+
+        function lap() {
+            var lastLap = (seconds * 100) * 0.01 / 100
+            var lapRecord = document.createElement('div');
+            lapRecord.innerHTML = "Lap " + lapCount + ": " + lastLap + "sec";
+            lapRecordDiv.appendChild(lapRecord);
+            lapCount++;
+            clearTimeout(intervalId)
+            seconds = 0
+            document.getElementById("counter").innerHTML = "0"
+            intervalId = setInterval(count, 10)
+
+            if (lapCount === 11) {
+                lapButton.disabled = true
+            }
+
+
+        }
+
+    </script>
+
+</body>
+
+</html>
